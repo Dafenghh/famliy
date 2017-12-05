@@ -88,6 +88,15 @@ class Family {
         }
         return -1;
     }
+
+    void print(int id, int indent){
+        for (int i = 0; i < indent; i++) cout << "-";
+        cout << " " << vec[i].getName();
+        if (vec[i].getWifeName() != "") cout << " (" << vec[i].getWifeName() << ")" ;
+        cout << endl;
+        vector<int> children_ids = vec[i].getChildrenIds();
+        for (int i = 0; i < children_ids.size(); i++) print(children_ids[i], indent+2);
+    }
 public:
     Family(string name, Gender sex, int birthYear) {
         vec.push_back(Person(0, name, sex, birthYear, 1));
@@ -150,14 +159,7 @@ public:
     }
 // print from root
 // print from a person
-    void print(int id, int indent){
-        for (int i = 0; i < indent; i++) cout << "-";
-        cout << " " << vec[i].getName();
-        if (vec[i].getWifeName() != "") cout << " (" << vec[i].getWifeName() << ")" ;
-        cout << endl;
-        vector<int> children_ids = vec[i].getChildrenIds();
-        for (int i = 0; i < children_ids.size(); i++) print(children_ids[i], indent+2);
-    }
+
 
     void printFromRoot() {
         print(0, 0);
