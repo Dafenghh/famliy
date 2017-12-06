@@ -59,6 +59,62 @@ int Person::getDeathYear() const {
     return death_year;
 }
 
+/*
+int id;
+    string name;
+    Gender sex;
+    int birth_year, death_year;//未死亡为-1
+    int father_id;
+    vector<int> children_ids;
+    string wife_name;//单身则为空串
+    int generation;
+*/
+istream& operator >> (istream &in, Person &person) {
+    in >> person.id;
+    int x;
+    in >> x;
+    person.sex = (x ? Male : Female);
+    in >> person.birth_year >> person.death_year >> person.father_id >> person.generation;
+    int n;
+    in >> n;
+    person.children_ids.clear();
+    for (int i = 0; i < n; i++) {
+        int child_id;
+        in >> child_id;
+        person.children_ids.push_back(child_id);
+    }
+    in >> x;
+    if (x) {
+        in >> person.name;
+    }
+    else {
+        person.name = "";
+    }
+
+    in >> x;
+    if (x) {
+        in >> person.wife_name;
+    }
+    else {
+        person.wife_name = "";
+    }
+    return in;
+}
+
+ostream& operator << (ostream &out,const Person &person) {
+    out << person.id << endl;
+    out << (person.sex == Male ? 1 : 0) << endl;
+    out << person.birth_year << endl << person.death_year << endl << person.father_id << endl << person.generation << endl;
+    out << person.children_ids.size() << endl;
+    for (auto i: person.children_ids) {
+        out << i << " ";
+    }
+    out << endl;
+    if (person.name != "") cout << "1 " << person.name << endl; else cout << "0" << endl;
+    if (person.wife_name != "") cout << "1 " << person.wife_name << endl; else cout << "0" << endl;  
+    return out;
+}
+
 void Family::addParChildRelation(int id1, int id2) // id1 is id2's parent
 {
     vec[id1].addChild(id2);
@@ -188,4 +244,21 @@ void Family::MemberDied(string member_name, int death_year) {
         return;
     }
     vec[member_id].setDeathYear(death_year);
+}
+
+istream& operator >> (istream &in, Family &family) {
+    int n;
+    in >> n;
+    family.vec.clear();
+    for (int i = 0; i < n; i++){
+        Person person;
+        in >> person;
+        family.vec.push_back(person);
+    }
+}
+ostream& operator << (ostream &out,const Family &family) {
+    out << family.vec.size() << endl;
+    for (auto i: family.vec) {
+        out << i;
+    }
 }

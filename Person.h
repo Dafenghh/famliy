@@ -8,6 +8,8 @@ using std::max;
 using std::string;
 using std::vector;
 using std::cout;
+using std::istream;
+using std::ostream;
 
 typedef enum{Male, Female} Gender; 
 class Person {
@@ -35,6 +37,8 @@ public:
     void setWifeName(string new_wife_name);
     void setDeathYear(int new_death_year);
     int getDeathYear() const;
+    friend istream& operator >> (istream &in, Person &person);
+    friend ostream& operator << (ostream &out,const Person &person);
 };
 
 class Family {
@@ -54,4 +58,6 @@ public:
     void printFromRoot();
     void printByName(string member_name);
     void MemberDied(string member_name, int death_year);// 如果成员不存在或者已死亡将cerr
+    friend istream& operator >> (istream &in, Family &family);
+    friend ostream& operator << (ostream &out,const Family &family);
 };
